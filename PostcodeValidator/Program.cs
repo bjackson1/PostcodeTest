@@ -11,6 +11,28 @@ namespace PostcodeValidator
 		{
 			Console.WriteLine ("Hello World!");
 			//Check ();
+			Part2();
+		}
+
+		private static void Part2()
+		{
+			string[] allLines = File.ReadAllLines ("/Users/brett/Downloads/import_data.csv");
+
+			using (StreamWriter ts = (File.CreateText ("/Users/brett/failed_validation.csv")))
+			{
+				foreach (string l in allLines)
+				{
+					var rowNum = l.Split (',') [0];
+					var code = l.Split (',') [1];
+
+					var postcode = new Postcode (code);
+
+					if (!postcode.Validate ())
+					{
+						ts.WriteLine ("{0},{1}", rowNum, code);
+					}
+				}
+			}
 		}
 
 		/// <summary>
